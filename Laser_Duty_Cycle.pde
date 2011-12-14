@@ -6,7 +6,6 @@
  */
 
 #include <Time.h>
-#include <TimeAlarms.h>
 
 // constants won't change. Used here to 
 // set pin numbers:
@@ -21,24 +20,23 @@ boolean changeState = true;
 
 
 void setup() {
+  Serial.begin(9600);
+  
   // set the digital pin as output:
   pinMode(powerPin, OUTPUT);
   setTime(8,29,0,1,1,11); // set time to Saturday 8:29:00am Jan 1 2011
-  Alarm.timerRepeat(10, TurnOn);  // Timer to turn high
-  Alarm.timerRepeat(5, TurnOff);  // Timer to turn low
 }
 
 void loop()
 {
-  Alarm.delay(1000); // wait one second between clock display
-
   // If there has been a change in state write it to the pin
   
-  if(changeState == true){
-    digitalWrite(powerPin, powerState);
-    changeState = false;
+  if((second()%10) == 5){
+    digitalWrite(powerPin, LOW);
   }
-  
+  else if ((second()%10) == 0) {
+    digitalWrite(powerPin, HIGH);
+  }
 }
 
 // When this alarm goes off the pin is set high
