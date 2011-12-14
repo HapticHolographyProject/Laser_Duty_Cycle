@@ -1,7 +1,7 @@
 /* Laser Duty Cycle
     By: Myles Borins
     
-    Turn off a laser for 5 minutes every hour and a half
+    Turn off a laser for 5 minutes every two hours
 
  */
 
@@ -19,36 +19,20 @@ boolean changeState = true;
 // will quickly become a bigger number than can be stored in an int.
 
 
-void setup() {
-  Serial.begin(9600);
-  
+void setup() {  
   // set the digital pin as output:
   pinMode(powerPin, OUTPUT);
-  setTime(8,29,0,1,1,11); // set time to Saturday 8:29:00am Jan 1 2011
+  setTime(12,0,1,1,1,11); // set time to Saturday 12:01:00am Jan 1 2011
+  digitalWrite(powerPin, HIGH);
 }
 
 void loop()
 {
   // If there has been a change in state write it to the pin
-  
-  if((second()%10) == 5){
+  if((hour()%2) == 1 && (minute() == 55)){
     digitalWrite(powerPin, LOW);
   }
-  else if ((second()%10) == 0) {
+  else if ((hour()%2) == 0 && (minute() == 0)) {
     digitalWrite(powerPin, HIGH);
   }
-}
-
-// When this alarm goes off the pin is set high
-
-void TurnOn(){
-  powerState = HIGH;
-  changeState = true;
-}
-
-// When this alarm goes off the pin is set low
-
-void TurnOff(){
-  powerState = LOW;
-  changeState = true;
 }
